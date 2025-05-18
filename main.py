@@ -6,7 +6,7 @@ def showGif(screen):
     image_turtle.shape("myimage.gif")
     image_turtle.penup()
 
-    for x in range(-300, 300, 5):
+    for x in range(-300, 300):
         image_turtle.goto(x, 0)
         screen.update()
     image_turtle.hideturtle()
