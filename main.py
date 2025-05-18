@@ -1,5 +1,6 @@
 import turtle
 
+
 def showGif(screen):
     screen.register_shape("myimage.gif")
     image_turtle = turtle.Turtle()
@@ -24,13 +25,6 @@ def main():
     screen.bgcolor("white")
     screen.setup(width=800, height=600)
     screen.tracer(0)  # Disable auto screen updates
-
-    # Bring window to front
-    canvas = screen.getcanvas()
-    root = canvas.winfo_toplevel()
-    root.lift()
-    root.attributes('-topmost', True)
-    root.after_idle(root.attributes, '-topmost', False)
 
     # Turtle for showing questions
     writer = turtle.Turtle()
