@@ -1,9 +1,9 @@
 import turtle
 
 def showGif(screen):
-    screen.register_shape("d:\\myimage.gif")
+    screen.register_shape("myimage.gif")
     image_turtle = turtle.Turtle()
-    image_turtle.shape("d:\\myimage.gif")
+    image_turtle.shape("myimage.gif")
     image_turtle.penup()
 
     for x in range(-300, 300, 5):
