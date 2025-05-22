@@ -1,5 +1,17 @@
 import turtle
+import pygame
 
+pygame.mixer.init()
+
+
+def play_correct_sound():
+    pygame.mixer.music.load("correct.mp3")
+    pygame.mixer.music.play()
+
+
+def play_incorrect_sound():
+    pygame.mixer.music.load("incorrect.mp3")
+    pygame.mixer.music.play()
 
 def showGif(screen):
     screen.register_shape("myimage.gif")
@@ -12,12 +24,14 @@ def showGif(screen):
         screen.update()
     image_turtle.hideturtle()
 
+
 def display_question(t, question):
     t.clear()
     t.goto(0, 100)
     t.write("Solve for X:", align="center", font=("Arial", 20, "bold"))
     t.goto(0, 50)
     t.write(question, align="center", font=("Arial", 18, "normal"))
+
 
 def main():
     screen = turtle.Screen()
@@ -53,9 +67,11 @@ def main():
             try:
                 if float(ans) == float(answers[i]):
                     correct = True
+                    play_correct_sound();
                     showGif(screen)
                 else:
                     writer.goto(0, -100)
+                    play_incorrect_sound();
                     writer.write("Wrong! Try again.", align="center", font=("Arial", 16, "italic"))
                     screen.update()
             except ValueError:
@@ -68,5 +84,6 @@ def main():
     writer.write("Congratulations! You've completed the quiz.", align="center", font=("Arial", 20, "bold"))
     screen.update()
     screen.mainloop()
+
 
 main()
