@@ -1,5 +1,17 @@
 import turtle
+import pygame
+import time
+pygame.mixer.init()
 
+
+def play_correct_sound():
+    pygame.mixer.music.load("correct.mp3")
+    pygame.mixer.music.play()
+
+
+def play_incorrect_sound():
+    pygame.mixer.music.load("incorrect.mp3")
+    pygame.mixer.music.play()
 
 def showGif(screen):
     screen.register_shape("myimage.gif")
@@ -8,9 +20,11 @@ def showGif(screen):
     image_turtle.penup()
 
     for x in range(-300, 300):
-        image_turtle.goto(x, 0)
+        image_turtle.goto(x, -50)
+        time.sleep(0.005)
         screen.update()
     image_turtle.hideturtle()
+
 
 def display_question(t, question):
     t.clear()
@@ -18,6 +32,7 @@ def display_question(t, question):
     t.write("Solve for X:", align="center", font=("Arial", 20, "bold"))
     t.goto(0, 50)
     t.write(question, align="center", font=("Arial", 18, "normal"))
+
 
 def main():
     screen = turtle.Screen()
@@ -50,17 +65,15 @@ def main():
             ans = screen.textinput("Your Answer", f"Enter a number for X in:\n{questions[i]}")
             if ans is None:
                 return  # user clicked cancel or closed input
-            try:
-                if float(ans) == float(answers[i]):
-                    correct = True
-                    showGif(screen)
-                else:
-                    writer.goto(0, -100)
-                    writer.write("Wrong! Try again.", align="center", font=("Arial", 16, "italic"))
-                    screen.update()
-            except ValueError:
+            if float(ans) == float(answers[i]):
+                correct = True
+                play_correct_sound()
+                showGif(screen)
+            else:
                 writer.goto(0, -100)
-                writer.write("Please enter a valid number!", align="center", font=("Arial", 16, "italic"))
+                play_incorrect_sound()
+                writer.write("Wrong! Try again.", align="center", font=("Arial", 16, "italic"))
+                time.sleep(2)
                 screen.update()
 
     writer.clear()
@@ -68,5 +81,6 @@ def main():
     writer.write("Congratulations! You've completed the quiz.", align="center", font=("Arial", 20, "bold"))
     screen.update()
     screen.mainloop()
+
 
 main()
