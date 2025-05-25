@@ -67,11 +67,11 @@ def main():
             try:
                 if float(ans) == float(answers[i]):
                     correct = True
-                    play_correct_sound();
+                    play_correct_sound()
                     showGif(screen)
                 else:
                     writer.goto(0, -100)
-                    play_incorrect_sound();
+                    play_incorrect_sound()
                     writer.write("Wrong! Try again.", align="center", font=("Arial", 16, "italic"))
                     screen.update()
             except ValueError:
