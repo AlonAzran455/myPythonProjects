@@ -34,13 +34,31 @@ def display_question(t, question):
     t.write(question, align="center", font=("Arial", 18, "normal"))
 
 
+def show_intro_image(screen):
+    screen.bgcolor("white")
+    screen.register_shape("alons math project intro.gif")
+    intro = turtle.Turtle()
+    intro.shape("alons math project intro.gif")
+    intro.penup()
+    intro.goto(0, 0)
+    screen.update()
+    time.sleep(3)
+    intro.hideturtle()
+
+def is_valid_number(text):
+    try:
+        float(text)
+        return True
+    except (ValueError, TypeError):
+        return False
+
 def main():
     screen = turtle.Screen()
     screen.title("Math Quiz")
     screen.bgcolor("white")
     screen.setup(width=800, height=600)
     screen.tracer(0)  # Disable auto screen updates
-
+    show_intro_image(screen)
     # Turtle for showing questions
     writer = turtle.Turtle()
     writer.hideturtle()
@@ -64,17 +82,19 @@ def main():
             screen.update()
             ans = screen.textinput("Your Answer", f"Enter a number for X in:\n{questions[i]}")
             if ans is None:
-                return  # user clicked cancel or closed input
+                continue  # user clicked cancel or closed input
+            if not is_valid_number(ans):
+                continue
             if float(ans) == float(answers[i]):
                 correct = True
                 play_correct_sound()
                 showGif(screen)
-            else:
-                writer.goto(0, -100)
-                play_incorrect_sound()
-                writer.write("Wrong! Try again.", align="center", font=("Arial", 16, "italic"))
-                time.sleep(2)
-                screen.update()
+            # else:
+            #     writer.goto(0, -100)
+            #     play_incorrect_sound()
+            #     writer.write("Wrong! Try again.", align="center", font=("Arial", 16, "italic"))
+            #     time.sleep(2)
+            #     screen.update()
 
     writer.clear()
     writer.goto(0, 0)
