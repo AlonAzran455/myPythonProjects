@@ -21,7 +21,7 @@ def showGif(screen):
 
     for x in range(-300, 300):
         image_turtle.goto(x, -50)
-        time.sleep(0.005)
+        time.sleep(0.0005)
         screen.update()
     image_turtle.hideturtle()
 
@@ -54,6 +54,9 @@ def is_valid_number(text):
 
 def main():
     screen = turtle.Screen()
+    canvas = screen.getcanvas()
+    root = canvas.winfo_toplevel()
+    root.attributes('-fullscreen', True)
     screen.title("Math Quiz")
     screen.bgcolor("white")
     screen.setup(width=800, height=600)
@@ -89,12 +92,11 @@ def main():
                 correct = True
                 play_correct_sound()
                 showGif(screen)
-            # else:
-            #     writer.goto(0, -100)
-            #     play_incorrect_sound()
-            #     writer.write("Wrong! Try again.", align="center", font=("Arial", 16, "italic"))
-            #     time.sleep(2)
-            #     screen.update()
+            else:
+                writer.goto(0, -100)
+                play_incorrect_sound()
+                time.sleep(1)
+                screen.update()
 
     writer.clear()
     writer.goto(0, 0)
