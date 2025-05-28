@@ -3,16 +3,23 @@ import pygame
 import time
 pygame.mixer.init()
 
-
+"""
+מנגנת צליל כשהשחקן עונה נכון
+"""
 def play_correct_sound():
     pygame.mixer.music.load("correct.mp3")
     pygame.mixer.music.play()
 
-
+"""
+מנגנת צליל כשהשחקן עונה לא נכון
+"""
 def play_incorrect_sound():
     pygame.mixer.music.load("incorrect.mp3")
     pygame.mixer.music.play()
 
+"""
+מציגה סמיילי שרץ על המסך כשהשחקן עונה נכון
+"""
 def showGif(screen):
     screen.register_shape("myimage.gif")
     image_turtle = turtle.Turtle()
@@ -25,7 +32,9 @@ def showGif(screen):
         screen.update()
     image_turtle.hideturtle()
 
-
+"""
+מציגה את השאלה הבאה על המסך
+"""
 def display_question(t, question):
     t.clear()
     t.goto(0, 100)
@@ -33,7 +42,9 @@ def display_question(t, question):
     t.goto(0, 50)
     t.write(question, align="center", font=("Arial", 18, "normal"))
 
-
+"""
+מציגה את הפתיח ובו כפתור PLAY
+"""
 def show_intro_image(screen, callback_to_start_quiz):
     screen.bgcolor("white")
 
@@ -64,7 +75,9 @@ def show_intro_image(screen, callback_to_start_quiz):
 
     screen.update()
 
-
+"""
+בודקת האם הטקסט שהוקלד הוא מספר ולא תווים אחרים
+"""
 def is_valid_number(text):
     try:
         float(text)
@@ -72,6 +85,9 @@ def is_valid_number(text):
     except (ValueError, TypeError):
         return False
 
+"""
+מריצה לולאה של כל השאלות, הלולאה מתקדמת לשאלה הבאה רק אם התשובה נכונה
+"""
 def start_quiz(screen):
     # Turtle for showing questions
     writer = turtle.Turtle()
@@ -89,9 +105,9 @@ def start_quiz(screen):
 
     answers = [-8, 2, 0, 9, -7, 8]
 
-    for i in range(len(questions)):
+    for i in range(len(questions)): # לואה שרצה ככמות השאלות שיש ברשימת השאלות
         correct = False
-        while not correct:
+        while not correct: # כל עוד התשובה לא נכונה - הלולאה תמשיך להציג את אותה השאלה
             display_question(writer, questions[i])
             screen.update()
             ans = screen.textinput("Your Answer", f"Enter a number for X in:\n{questions[i]}")
@@ -114,15 +130,15 @@ def start_quiz(screen):
     writer.write("Congratulations! You've completed the quiz.", align="center", font=("Arial", 20, "bold"))
     screen.update()
 
-
+"""
+הפו' הראשית שמפעילה את הכל. מציגה מסך פתיחה, ואחר כך את לולאת הצגת השאלות
+"""
 def main():
     screen = turtle.Screen()
     canvas = screen.getcanvas()
     root = canvas.winfo_toplevel()
     root.attributes('-fullscreen', True)
-    screen.title("Math Quiz")
     screen.bgcolor("white")
-    screen.setup(width=800, height=600)
     screen.tracer(0)
 
     # Show intro with clickable gif button
