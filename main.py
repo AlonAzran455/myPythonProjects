@@ -34,16 +34,36 @@ def display_question(t, question):
     t.write(question, align="center", font=("Arial", 18, "normal"))
 
 
-def show_intro_image(screen):
+def show_intro_image(screen, callback_to_start_quiz):
     screen.bgcolor("white")
+
+    # Register both intro image and button gif
     screen.register_shape("alons math project intro.gif")
+    screen.register_shape("play.gif")  # <- your custom button image
+
+    # Intro image turtle
     intro = turtle.Turtle()
     intro.shape("alons math project intro.gif")
     intro.penup()
     intro.goto(0, 0)
+
+    # Start button turtle
+    button = turtle.Turtle()
+    button.shape("play.gif")
+    button.penup()
+    button.goto(0, -250)  # Adjust as needed to place below the intro image
+
+    # Define what happens when button is clicked
+    def start_clicked(x, y):
+        intro.hideturtle()
+        button.hideturtle()
+        callback_to_start_quiz()
+
+    # Set the button to be clickable
+    button.onclick(start_clicked)
+
     screen.update()
-    time.sleep(3)
-    intro.hideturtle()
+
 
 def is_valid_number(text):
     try:
@@ -52,16 +72,7 @@ def is_valid_number(text):
     except (ValueError, TypeError):
         return False
 
-def main():
-    screen = turtle.Screen()
-    canvas = screen.getcanvas()
-    root = canvas.winfo_toplevel()
-    root.attributes('-fullscreen', True)
-    screen.title("Math Quiz")
-    screen.bgcolor("white")
-    screen.setup(width=800, height=600)
-    screen.tracer(0)  # Disable auto screen updates
-    show_intro_image(screen)
+def start_quiz(screen):
     # Turtle for showing questions
     writer = turtle.Turtle()
     writer.hideturtle()
@@ -85,7 +96,7 @@ def main():
             screen.update()
             ans = screen.textinput("Your Answer", f"Enter a number for X in:\n{questions[i]}")
             if ans is None:
-                continue  # user clicked cancel or closed input
+                continue
             if not is_valid_number(ans):
                 continue
             if float(ans) == float(answers[i]):
@@ -102,7 +113,20 @@ def main():
     writer.goto(0, 0)
     writer.write("Congratulations! You've completed the quiz.", align="center", font=("Arial", 20, "bold"))
     screen.update()
-    screen.mainloop()
 
+
+def main():
+    screen = turtle.Screen()
+    canvas = screen.getcanvas()
+    root = canvas.winfo_toplevel()
+    root.attributes('-fullscreen', True)
+    screen.title("Math Quiz")
+    screen.bgcolor("white")
+    screen.setup(width=800, height=600)
+    screen.tracer(0)
+
+    # Show intro with clickable gif button
+    show_intro_image(screen, lambda: start_quiz(screen))
+    screen.mainloop()
 
 main()
